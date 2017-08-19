@@ -1,0 +1,3 @@
+qs2.py -  lot of about AML language
+qs5.py - lot of for AML language
+qs8.py - some for AML language
