@@ -1,0 +1,18 @@
+// randomize words in files
+
+data  = !cat file
+words = split ' ' /@ split '\n' data
+
+rerand(a): a[i] <> a[randint(#a)]
+rerand(words)
+
+// another option:
+
+words = /' '/ /@ /'\n'/ !cat file
+
+// if we will run it in shell
+$: cat data | aaml -e "|' '| /@ |'\n'| $_; rerand $__"
+
+// in some place we need to store .taaml files
+// taaml - template aaml
+// which will connect syntax of aml with specific language
