@@ -31,3 +31,5 @@ print qsort(A)
 #    l += [e] was l += [ep]
 #else: was else
 #    r += [e] was r += [ep]
+
+# я

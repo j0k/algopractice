@@ -23,3 +23,4 @@ print qsort(A)
 
 # AML:
 # left, right = (<=, >) e
+# a[^i]
