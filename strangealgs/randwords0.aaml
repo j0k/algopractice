@@ -16,3 +16,14 @@ $: cat data | aaml -e "|' '| /@ |'\n'| $_; rerand $__"
 // in some place we need to store .taaml files
 // taaml - template aaml
 // which will connect syntax of aml with specific language
+
+// for the future - always write down the ideas
+// language ideas can easy fly away
+
+
+// aaml arch
+// the most important thing in aml & aaml is the expandable {a}AML kernel
+// which can be expands not only with structed concepts but also with
+// ML & NN concepts introducing to liqued language processing modules
+
+// declarative {a}aml style
