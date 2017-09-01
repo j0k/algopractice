@@ -16,7 +16,7 @@ def qsort(a):
         del a[plm]
     else:
         inds = [plm,prm]
-        inds.sort()
+
         del a[inds[1]]
         del a[inds[0]]
 
@@ -46,3 +46,25 @@ A = randperm(range(20))
 
 print A
 print qsort(A)
+
+###.
+###. how to do that in AML
+###.
+
+###. qsort(a, k=2):
+###.   ret a if len(a)<=1
+###.   uni = unique
+###.   pa = uni  ((i/k) * len(a)) in i:1 .. k-1
+###.   (ep,pa) = uni(sort( a[i] {i}/@ pa ).order_on(pa) ).by([0])
+###.
+###.   na = [] * #ep
+###.   for i in range(len(a)):
+###.     continue if i in pa
+###.     na[x] += [a[i]] where x = i {
+###.                                    where a[i] < ep[x]: where x = 0
+###.                                    where ep[x] <= a[i]: where x = -1 // x = #ep
+###.                                    where ep[x] <= a[i] < ep[x+1]: where x = all
+###.                                  }
+###.   merge a,b = *a[0],b[0],*a[1],b[1], ...  // here we need a very powerful quesser
+###.   ret merge(qsort /@ na,ep)
+###.

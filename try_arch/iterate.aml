@@ -1,0 +1,27 @@
+// AML is easy to iterations
+// a,b,c - array
+
+i,.e in :(a,b,c):
+  // a[i] == a.e
+  print "a[i] equal to a.e and a.e is aliasing "
+
+
+// for .e in a:
+//   for .e in b:
+//     for .e in c:
+//       print a.e, b.e, c.e
+
+for .e in (((a),b),c):
+  print a.e, b.e, c.e
+
+
+// about sending the arguments from context about
+//
+// let f(a,b):
+//   a + b + c
+
+a = 1
+b = 2
+c = 3
+
+print f()
