@@ -55,18 +55,39 @@ class NN:
         return B
 
     def ff(self, d, w, b):
+        x,y = d
         l = len(w)
 
         f = lambda x: x * 2
 
         AA,ZZ = [], []
         aa,zz = [], []
-        for i in range(l):
-            n = len(w[i])
+        for i in range(len(w)):
+            nc = len(w[i])
+            for n in range(nc):
+                wn = []
+                if i == 0:
+                    for j in range(len(w[i][n])):
+                        wn += [ w[i][n][j] * x[j] ] + b[i][j] #check b[i][j]
+                else:
+                    for j in range(len(aa[i])):
+                        wn += [ w[i][n][j] * aa[i-1][j] ] + b[i][j] #check b[i][j]
+
+                calcV = []
+
+                for j in range(len(w[i][n]))::
+                    calV += [f(wn[j])]
+
+                aa += [calcV]
+
             if i == 0:
                 rj = []
-                for j in range(n):
-                    rj += [ w[i][j] * d[j] ]
+                for c in range(nc):
+                    wic = []
+                    for j in range(w[i][c]):
+                        wic += [ w[i][c][j] * x[j] ] + b[i][j]
+                    wic = sum(wic)
+                    rj += [wic]
 
                 rj = sum(rj)
 
@@ -80,7 +101,7 @@ class NN:
     def fb(self):
         pass
 
-nn = NN([1,2,2,1],data)
+nn = NN([1,2,1],data)
 print nn.genW()
 print nn.genB()
 
