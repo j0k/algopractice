@@ -23,7 +23,6 @@ def merge(a,b):
 
 def msort(a):
     p = int(len(a)/2)
-
     return merge(msort(a[:p]),msort(a[p:])) if p > 0 else a
 
 import random

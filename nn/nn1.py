@@ -55,6 +55,7 @@ class NN:
         return B
 
     def ff(self, d, w, b):
+        print d
         x,y = d
         l = len(w)
 
@@ -62,41 +63,40 @@ class NN:
 
         AA,ZZ = [], []
         aa,zz = [], []
+        # Table[{zz[[i]], aa[[i]]} = {t = (w[[i]].If[i === 1, x, aa[[i - 1]]] + b[[i]]),  LogisticSigmoid[t]}, {i, 1, len}];
         for i in range(len(w)):
+            # i means connection layer
             nc = len(w[i])
+            # neuro count in
+            nout = len(w[i][0])
+            # neuron count out
+            WN2 = [[] for j in range(nout)]
+
+
             for n in range(nc):
                 wn = []
-                if i == 0:
-                    for j in range(len(w[i][n])):
-                        wn += [ w[i][n][j] * x[j] ] + b[i][j] #check b[i][j]
-                else:
-                    for j in range(len(aa[i])):
-                        wn += [ w[i][n][j] * aa[i-1][j] ] + b[i][j] #check b[i][j]
 
-                calcV = []
+                for j in range(len(w[i][n])):
+                    #WN[j] +=
+                    if i == 0:
+                        WN2[j] += [ w[i][n][j] * x[j]  ]
+                    else:
+                        wx = w[i][n][j] * aa[i-1][j]
+                        WN2[j] += [ wx + b[i][j] ]
+                    #wn += [ w[i][n][j] * x[j] + b[i][j] ]#check b[i][j]
 
-                for j in range(len(w[i][n]))::
-                    calV += [f(wn[j])]
+            calcV = []
 
-                aa += [calcV]
+            print "WN2:", WN2
 
-            if i == 0:
-                rj = []
-                for c in range(nc):
-                    wic = []
-                    for j in range(w[i][c]):
-                        wic += [ w[i][c][j] * x[j] ] + b[i][j]
-                    wic = sum(wic)
-                    rj += [wic]
+            for n in range(len(WN2)):
+                WN2[n] = sum(WN2[n])
+                calcV += [ f(WN2[n]) ]
 
-                rj = sum(rj)
+            zz += [WN2]
+            aa += [calcV]
 
-
-
-
-
-
-        pass
+        return (zz, aa)
 
     def fb(self):
         pass
@@ -104,6 +104,7 @@ class NN:
 nn = NN([1,2,1],data)
 print nn.genW()
 print nn.genB()
+print nn.ff(data[0], nn.genW(), nn.genB())
 
 #
 # NeuralNetwork[layers_List, data_] :=

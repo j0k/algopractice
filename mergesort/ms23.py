@@ -1,5 +1,6 @@
 # 13.09.2017
-# 12:53
+# start 12:53
+# endL 13:04
 
 import random
 def randperm(a):

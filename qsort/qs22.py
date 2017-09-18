@@ -25,5 +25,5 @@ print qsort(A)
 
 # AML filtering:
 #
-# 
+#
 # return qs(<= e & .i!=p), (.i == p), qs(>e &.i !=p)  a
