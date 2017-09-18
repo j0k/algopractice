@@ -14,6 +14,18 @@ import math
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
+
+def transpose(m):
+    w = len(m)
+    h = len(m[0])
+
+    m2 = [[[] for j in range(w)] for i in range(h)]
+
+    for i in range(w):
+        for j in range(h):
+            m2[j][i] = m[i][j]
+
+    return m2
 # start at 16.09.2017
 # step 1 end at 15:26
 class NN:
@@ -135,19 +147,69 @@ class NN:
         #delta[len(w)] = (a[len(w)] - y) * df(z[len(w)])
 
         nlayers = len(w)
-        nin  = len(w[-1][0])
-        nout = len(w[-1])
+        nout  = len(w[-1][0])
+        nin = len(w[-1])
 
-        delta[-1] = [0 for i in range(nin)]
-        for i in range(nin):
-            # for the last layer
-            #
-            # print "n for lastL",len(w[-1])
-            # print "a", a[-1]
-            # print "y", y
-            # print "z",z[-1]
-            # print "delta", delta[-1]
+        delta[-1] = [0 for i in range(nout)]
+        for i in range(nout):
             delta[-1][i] = (a[-1][i] - y[i]) * df(z[-1][i])
+
+        #print "W-1",w[-1]
+        #print "W-2",w[-2]
+
+        for l in range(0,len(w)-1):
+            cur = -1 - l - 1
+            nout  = len(w[cur][0])
+            nin   = len(w[cur])
+            wt    = transpose(w[cur+1])
+
+            delta[cur] = [0 for i in range(nout)]
+            for i in range(nout):
+                for j in range(nin):
+                    #print "d", delta[-1 - l - 1]
+                    #print "dd",delta[-1 - l]
+                    delta[cur][i] += wt[j][i] * delta[cur + 1][j]
+                    #(a[-1][i] - y[i]) * df(z[-1][i])
+                delta[cur][i] = delta[cur][i] * df(z[cur][i])
+        print delta
+
+        gradw = [[] for i in range(len(w))]
+        gradb = [[] for i in range(len(w))]
+
+        #for i in range
+
+        # Do[gradw[[i]] = Outer[Times, Delta[[i]], a[[i - 1]]],
+        #                         {i, len, 2, -1}];(*weight gradients, except final one*)
+
+
+        for l in range(len(w)):
+            #print delta, "a", a
+            wx = []
+            cur = -1 - l
+            for i in range(len(delta[cur])):
+                wj = []
+                if len(w) == abs(cur)+1:
+                    for j in range(len(a[cur -1])):
+                        wj += [delta[cur][i] * a[cur -1][j] ]
+                else:
+                    for j in range(len(x)):
+                        wj += [delta[cur][i] * x[j] ]
+                wx += [wj]
+            gradw[-1-l] = transpose(wx)
+
+        gradb = delta
+
+
+
+        # print "gradw", gradw
+        # print "w", w
+        # print "gradb", gradb
+
+        return gradw, gradb
+
+        # gradw = [[[] for j in range(len(delta))] for i in range(len(a))]
+
+
 
             #   FeedBackward[a_, z_, x_, y_, w_] :=
             #       Module[{len, dSigma, Delta, gradw, gradb},
@@ -165,7 +227,7 @@ class NN:
             #           {gradw, gradb}
             #       ];
             # pass
-        return 1
+        #return 1
 
 
     def onestep(self, d):
