@@ -3,7 +3,7 @@ import random
 
 rand01 = lambda x : random.choice([0,1])
 rotateL = lambda x: x[1:] + [x[0]]
-data = [map(rand01, range(3)) for i in range(10)]
+data = [map(rand01, range(3)) for i in range(100000)]
 
 data = map(lambda x:[x, rotateL(x)],data)
 #print data
@@ -71,8 +71,13 @@ class NN:
         return B
 
     def ff(self, d, w, b):
-        print d
-        x,y = d
+        #print d
+        x,y = [],[]
+        if len(d) == 2:
+            x,y = d
+        else:
+            x = d
+            
         l = len(w)
 
         f = lambda x: sigmoid(x)
@@ -86,7 +91,7 @@ class NN:
             nin   = len(w[i])
             nout  = len(w[i][0])
 
-            print "nin=",nin," nout=",nout
+            #print "nin=",nin," nout=",nout
             # neuron count out
             #WN2 = [[[] for i in range(nin)] for j in range(nout)]
             WN2 = [[] for j in range(nout)]
@@ -127,7 +132,7 @@ class NN:
 
             calcV = []
 
-            print "WN2:", WN2
+            #print "WN2:", WN2
 
             for n in range(nout):
                 WN2[n] = sum(WN2[n])
@@ -171,7 +176,7 @@ class NN:
                     delta[cur][i] += wt[j][i] * delta[cur + 1][j]
                     #(a[-1][i] - y[i]) * df(z[-1][i])
                 delta[cur][i] = delta[cur][i] * df(z[cur][i])
-        print delta
+        #print delta
 
         gradw = [[] for i in range(len(w))]
         gradb = [[] for i in range(len(w))]
@@ -232,10 +237,62 @@ class NN:
 
     def onestep(self, d):
         x,y = d
-        w = self.genW();
+        w = self.genW()
         b = self.genB()
         z,a = nn.ff(d, w, b)
         self.fb(a,z,x,y, w)
+
+    def fullbatch(self,data):
+        w = self.genW()
+        b = self.genB()
+        tcost = 0
+        cost = [];
+
+        #    cnt = Round[Length[data]/100]; tcnt = 0;(*cost iteration counters*)
+        cnt = int(len(data)/100)
+        tcnt = 0
+
+        for d in data:
+            x,y = d
+            z,a = self.ff(d, w, b)
+            tc = 0.5* (EuclideanDistance(y, a[ - 1]) ** 2)
+            tcost += tc
+
+            tcnt += 1
+            if tcnt % cnt == 0:
+                cost += [tcost]
+                print tcost
+                tcost = 0
+            #     If[Mod[++tcnt, cnt] === 0, AppendTo[cost, tcost/cnt]; tcost = 0];
+
+            #print tc
+            gradw, gradb = self.fb(a, z, x, y, w)
+
+            LR = self.LR
+            w = atElem(lambda x,y: x - LR * y, w, gradw)
+            b = atElem(lambda x,y: x - LR * y, b, gradb)
+
+        print "TEST:"
+        print self.ff([1,0,0],w,b)
+        print self.ff([0,1,0],w,b)
+        print self.ff([0,1,1],w,b)
+
+import math
+def EuclideanDistance(a,b):
+    d = 0
+    for i in range(len(a)):
+        d += (b[i] - a[i]) ** 2
+    return math.sqrt(d)
+
+def atElem(f, a,b):
+    if type(a) in (int,float) and type(b) in (int,float):
+        return f(a,b)
+    else:
+        res = []
+        for i in range(len(a)):
+            res += [atElem(f,a[i],b[i])]
+        return res
+
 
 nn = NN([3,5,3],data)
 print nn.genW()
@@ -243,6 +300,7 @@ print nn.genB()
 #print data[0]
 #print nn.ff(data[0], nn.genW(), nn.genB())
 print nn.onestep(data[0])
+print nn.fullbatch(data)
 #
 # NeuralNetwork[layers_List, data_] :=
 #   Module[{len, w, b, \[Lambda], dSigma, y, z, a, Delta, gradw,
