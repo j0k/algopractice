@@ -37,3 +37,33 @@ A = randperm(range(20))
 
 print A
 print ms(A)
+
+
+# AML details:
+#
+# here we want to bypass the bound conditions
+# a[i], b[j]
+# merge(a,b):
+#   i in a.inds & j in b.inds:
+#     a[i] <= b[j] ==> c += [a[i]] esle c += [b[j]]
+#
+# declarative paradigm with NLP associatiove purposes
+#
+# a[i], b[j]
+# merge(a,b):
+#   i in a.inds & j in b.inds || iterate by 1: // || iterate by step
+#     a[i] <= b[j] ==> c += [a[i]] esle c += [b[j]]
+#
+# merge(a,b):
+#   i in a.inds & j in b.inds || iterate together (i,j) by 1 : // || iterate by step
+#     a[i] <= b[j] ==> c += [a[i]] esle c += [b[j]]
+#
+# Quessed Interpretation Paradigm
+#
+# merge(a,b):
+#   i in a.inds: // for by quess
+#     j in b.inds || iterate together (i,j) by 1 : // || iterate by step
+#       a[i] <= b[j] ==> c += [a[i]] esle c += [b[j]]
+#
+#
+# SO in AML we have stable AML and flexible AML with quessing and associative sences
