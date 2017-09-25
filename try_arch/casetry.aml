@@ -1,0 +1,16 @@
+if cond:
+  a1 // a1 changed global state
+  some actions
+  if cond:
+    a2 // a2 also changed global state
+
+check(cond -> expr) else finish:
+  expr a1
+  some actions
+
+  expr a2
+  expr a3
+
+
+by default
+check(cond -> expr) else continue: 
