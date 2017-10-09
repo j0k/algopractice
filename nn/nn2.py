@@ -1,5 +1,6 @@
 import random
 import math
+import numpy as np
 
 def sigmoid(x):
     return 1/(1 + math.exp(-x))
@@ -40,6 +41,7 @@ class NN:
         return [self.W, self.B]
 
     def bp():
+        # backpropagation
         pass
 
     def ff():
@@ -70,9 +72,13 @@ class NN:
                         # print i, iIn, x
                         V[i+1][iOut] += w[i][iIn][iOut] * V[i][iIn]
                     else:
-                        V[i+1][iOut] += w[i][iIn][iOut] * f(VF[i][iIn])
+                        V[i+1][iOut] += w[i][iIn][iOut] * VF[i][iIn]
+                        #V[i+1][iOut] += w[i][iIn][iOut] * (VF[i][iIn] + b[i][iOut])
 
-                V[i+1][iOut]  += self.B[i][iOut]
+                V[i+1][iOut]  += b[i][iOut]
+
+            # Table[{zz[[i]], aa[[i]]} = {t = (w[[i]].If[i === 1, x, aa[[i - 1]]] + b[[i]]), LogisticSigmoid[t]}, {i, 1, len}];
+            # sum with b before *w[[i   ]]
 
             for iOut in range(nout):
                 VF[i+1][iOut]  = f(V[i+1][iOut])
@@ -80,10 +86,30 @@ class NN:
         return V, VF
 
     def fb(self,a,z,x,y,w):
-        df = lambda x: (1 - sigmoid(x)) * sigmoid(x)
-        f  = lambda x: sigmoid(x)
+        f   = lambda x: sigmoid(x)
+        df  = lambda x: (1 - sigmoid(x)) * sigmoid(x)
+        vf  = np.vectorize(f)
+        vdf = np.vectorize(df)
+
+
+        toA = np.array
 
         delta = [[] for i in range(len(w))]
+
+        gradw, gradb = 0,0
+
+        nl    = len(w)
+        grad  = [None for i in range(nl)]
+        gradw = [None for i in range(nl)]
+        gradb = [None for i in range(nl)]
+
+        # initial backpropagation step
+        print "a",a[nl-1], a[-1]
+        print "y",y
+        grad[nl-1] = (toA(a[nl]) - toA(y)) * vdf (toA(z[nl]))
+
+
+        return gradw, gradb
 
 
     def nn():
@@ -91,16 +117,16 @@ class NN:
 
 layers = [[3,3,3],[3,5,3], [3,5,2,5,3], [3,1,3], [3,2,1,2,3], [3,6,5,4,3]]
 
-
-data = genData(10,3)
-d0 = data[0][0]
+data    = genData(10,3)
+d0, r0  = data[0][0], data[1][0]
 
 for ll in layers:
     print "layers:", ll
     nn = NN(ll)
     nn.genWB()
-    nn.pure_ff(d0,nn.W,nn.B)
-    print nn.pure_ff(d0,nn.W,nn.B)
+    v, vf = nn.pure_ff(d0, nn.W, nn.B) # zz,aa
+    nn.fb(vf, v, d0, r0, nn.W)
+    #print nn.pure_ff(d0,nn.W,nn.B)
 
 
 #print data
