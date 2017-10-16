@@ -7,14 +7,18 @@ import random
 import numpy as np
 import math
 
+np.set_printoptions(precision=2,suppress=True)
+#np.set_printoptions(suppress=True)
+
 def genDat(n,l):
     rotL  = lambda x : x[1:] + [x[0]]
+    rotR  = lambda x : [x[-1]] + x[:-1]
 
     rand  = lambda x : random.choice([0.0,1.0])
     randL = lambda x : map(rand, range(l))
 
     x = map(randL, range(n))
-    y = map(rotL , x)
+    y = map(lambda x : rotL(x) + rotR(x) , x)
 
     return zip(x,y)
 
@@ -84,7 +88,10 @@ class NN:
         v,vf         = self.ff(x)
         gradw, gradb = self.fb(v,vf,x,y)
 
-        self.w = self.w - np.multiply(gradw, self.LR)
+        #print gradw
+        gradwmult = map(lambda x:np.multiply(x, self.LR), gradw)
+
+        self.w = map(lambda x:x[0] - x[1], zip(self.w,gradwmult))
         self.b = self.b - np.multiply(gradb, self.LR)
 
         return self.err(vf[-1],y)
@@ -120,8 +127,9 @@ def nF(v):
 
 
 dat = genDat(10000,3)
+print dat[:10]
 
-layers = [[3,3,3],[3,4,3],[3,2,3],[3,3,5,3]]
+layers = [[3,3,6],[3,4,6],[3,2,6],[3,3,5,6],[3,6]]
 
 for ll in layers:
     print "ll = {}".format(ll)
