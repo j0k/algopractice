@@ -16,11 +16,17 @@ def genDat(n,l):
 
     return zip(x,y)
 
-def sigmoid(z):
+def logsigmoid(z):
     return 1.0/(1.0 + math.exp(-z))
 
-def dsigmoid(z):
+def dlogsigmoid(z):
     return (1.0 - sigmoid(z))*sigmoid(z)
+
+def logsigmoid2(z):
+    return 2.0/(1.0 + math.exp(-z)) - 1.0
+
+def dlogsigmoid2(z):
+    return 2*(1.0 - sigmoid(z))*sigmoid(z)
 
 
 class NN:
@@ -28,8 +34,8 @@ class NN:
         _.ll  = ll
         _.lr  = lr
         _.w, _.b = _.genWB()
-        _.fA  = np.vectorize(sigmoid)
-        _.dfA = np.vectorize(dsigmoid)
+        _.fA  = np.vectorize(logsigmoid)
+        _.dfA = np.vectorize(dlogsigmoid)
 
 
     def genWB(_):
