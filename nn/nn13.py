@@ -20,13 +20,16 @@ def logsigmoid(z):
     return 1.0/(1.0 + math.exp(-z))
 
 def dlogsigmoid(z):
-    return (1.0 - sigmoid(z))*sigmoid(z)
+    return (1.0 - logsigmoid(z))*logsigmoid(z)
 
 def logsigmoid2(z):
-    return 2.0/(1.0 + math.exp(-z)) - 1.0
+    if (-z) > 60:
+        return -1.0
+    else:
+        return 2.0/(1.0 + math.exp(-z)) - 1.0
 
 def dlogsigmoid2(z):
-    return 2*(1.0 - sigmoid(z))*sigmoid(z)
+    return 2.0*(1.0 - logsigmoid2(z))*logsigmoid2(z)
 
 
 class NN:
@@ -34,13 +37,13 @@ class NN:
         _.ll  = ll
         _.lr  = lr
         _.w, _.b = _.genWB()
-        _.fA  = np.vectorize(logsigmoid)
-        _.dfA = np.vectorize(dlogsigmoid)
+        _.fA  = np.vectorize(logsigmoid2)
+        _.dfA = np.vectorize(dlogsigmoid2)
 
 
     def genWB(_):
-        w = [np.random.randn(nin, nout) for (nin, nout) in zip(_.ll[:-1], _.ll[1:])]
-        b = [np.random.randn(nout)      for nout        in _.ll[1:]]
+        w = [np.random.randn(nin, nout)/5 for (nin, nout) in zip(_.ll[:-1], _.ll[1:])]
+        b = [np.random.randn(nout)/5      for nout        in _.ll[1:]]
 
         return w,b
 
@@ -66,7 +69,7 @@ class NN:
             g[i] = np.multiply(np.dot(_.w[i+1], g[i+1]), _.dfA(v[i+1]))
 
         for i in range(len(_.w) - 1,-1,-1):
-            gw[i] = np.transpose(np.outer(g[i], v[i]))
+            gw[i] = np.transpose(np.outer(g[i], vf[i]))
 
         return gw,g
 
@@ -94,11 +97,16 @@ class NN:
             print "x = {}, y = {}, out = {}, e = {}".format(x,y,vf[-1],e)
 
 
-dat = genDat(10000,3)
+dat = genDat(100000,3)
 layers = [[3,4,3], [3,5,3], [3,4,2,4,3]]
 
 for ll in layers:
     print "ll = {}".format(ll)
     nn = NN(ll)
-    nn.train(dat)
+    print "Before TRAIN"
     nn.test(dat[:7])
+    print nn.train(dat[:5])
+    nn.train(dat)
+    print "AFTER TRAIN"
+    nn.test(dat[:7])
+    print nn.train(dat[:5])
