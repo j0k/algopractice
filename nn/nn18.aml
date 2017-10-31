@@ -1,0 +1,51 @@
+# 30.10.2017
+# 15:29
+
+# first time simulation of AML backpropagation writing
+
+def genDat(n,l):
+    rand = (): ?([0,1]) *f l
+    x = rand() *f n
+    y = _[:1] + [_[0]] // x
+
+    zip(x,y)
+
+class NN:
+    init(_, ll, lr):
+
+    genWB(_):
+      w = ?@ [m,n] : (m,n) in zip(ll[:-1],ll[1:])
+      b = ?@ [n]   : in ll[1:]
+      w,b
+
+    ff(_, x):
+      accumulate(v,vf)
+      v = vf = x
+      vf = fA(v = (w' .* v + b)) : (w,b) in (_.w, _.b)
+      v,vf
+
+    ff_pure(_, x):
+      v = x
+      v = (w' .* v + b) : (w,b) in (_.w, _.b)
+
+    fb(_, V, VF, y):
+      G,GW,GB
+      G[-1] = (vf[-1] - y) * dfA(V[-1])
+      i>=0 & i != a.-1:
+        G[i]  = (w .* g) * dfA(v) : w = W[i+1], g = G[i+1], v = V[i]
+
+      i=all -1 .. 0:
+        GW[i] = outer(g,v) : g = G[i], v = V[i]
+
+      # i in [len(W)-1 .. 0]:
+      #   G[i]  = (w .* g) * dfA(v) : w = W[i+1], g = G[i+1], v = V[i]
+
+      # i in [len(W)-1 .. 0]:
+      #    GW[i] = outer(g,v) : g = G[i], v = V[i]
+
+      GW, G
+
+    # it's very useful to generate methods based on functionality description
+    tb(_,x,y):
+      v,vf = ff(x)
+      gw,gb = fb(v,vf,y)
