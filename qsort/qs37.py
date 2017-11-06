@@ -1,16 +1,19 @@
+# 07.11.2017
+# Spb, 151, end: 12:43
+
 def qs(a):
     if len(a)<=1:
         return a
 
-    lr = [[],[]]
+    lr = l,r = [[],[]]
     p   = int(len(a)/2)
     c  = a[p]
 
-    for i in range(len(a)):
+    for i,ai in enumerate(a):
         if i == p:
             continue
 
-        lr[not (a[i]<= c)] += [a[i]]
+        lr[not (ai <= c)] += [ai]
 
     l,r = map(qs, lr)
     return l + [c] + r
