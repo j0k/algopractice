@@ -25,3 +25,8 @@ A = random.sample(A, len(A))
 
 print A
 print qs(A)
+
+# TODO: aml
+# multiple verison
+# a1,a2,a3,a4 = [], [], [], []
+# ediv = len(#a[..]) - 1
