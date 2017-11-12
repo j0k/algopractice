@@ -1,3 +1,5 @@
+# 12.11.2017 11:42 room 151
+
 def qs(a):
     if len(a)<=1:
         return a
