@@ -98,19 +98,22 @@ class NN:
         return [_.trainStep(x,y) for (x,y) in data]
 
     def test(_, data, n):
-        maxe,i = 0,0
+        maxe,i,avge = 0,0,0
+
         maxout = None
         for (x,y) in data:
-            out = _.ffp(x)
-            e   = _.err(out,y)
+            out   = _.ffp(x)
+            e     = _.err(out,y)
+            avge += e
             if maxe<e:
                 maxe = max(maxe,e)
                 maxout = [x,y,out]
 
             if i<n:
                 print "x={},y={},out={},e={}".format(x,y,out,round(e))
-                i += 1
-        print "max e = {}, maxout = {}".format(maxe, maxout)
+            i += 1
+        avge = avge/len(data)
+        print "max e = {}, maxout = {}, avge = {}".format(maxe, maxout, avge)
 
 
 def genSeq101(n,p):
