@@ -154,14 +154,24 @@ def genSeqData(n,l):
 
 data = genSeqData(1000000,4)
 
-layers = [[4,4,4,4,1], [4,8,7,6,1],[4,8,1],[4,16,1],[4,8,16,1],[4,8,12,16,1],[4,16,12,8,4,1]]
+layers = [[4,1], [4,4,1], [4,3,1], [4,3,2,1], [4,4,4,4,1], [4,8,7,6,1],[4,8,1],[4,16,1],[4,8,16,1],[4,8,12,16,1],[4,16,12,8,4,1]]
 
 #data = genDat(20,3)
-
-
 
 for ll in layers:
     print "ll = {}".format(ll)
     nn = NN(ll)
+    nn.train(data)
+    nn.test(data,15)
+    print "[] second iter"
+    nn.train(data)
+    nn.test(data,15)
+
+for ll in layers:
+    print "ll = {}".format(ll)
+    nn = NN(ll)
+    nn.train(data)
+    nn.test(data,15)
+    print "[] second iter"
     nn.train(data)
     nn.test(data,15)
