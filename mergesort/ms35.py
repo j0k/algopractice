@@ -2,7 +2,7 @@
 
 def me(a, b):
     i,j=0,0
-    c
+    c = []
     while i+j<len(a)+len(b):
         if i==len(a):
             c += [b[j]]
