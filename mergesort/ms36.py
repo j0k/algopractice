@@ -1,38 +1,41 @@
-# 11:15 11.12.2017
+# 11:42 03/12/2017 flat502
 
-def ms(a):
-    if len(a)<=1:
-        return a
-
-    p = int(len(a)/2)
-
-    l = ms(a[:p])
-    r = ms(a[p:])
-
+def merge(a,b):
+    i,j = 0,0
     c = []
+    for k in range(len(a) + len(b)):
+        ai = k - i
+        bj = k - j
 
-    i,j= 0,0
-
-    while i+j<len(l)+len(r):
-        if j == len(r):
-            c += [l[i]]
+        if len(a) == ai:
+            c += [b[bj]]
             i += 1
-        elif i == len(l):
-            c += [r[j]]
+        elif len(b) == bj:
+            c += [a[ai]]
             j += 1
-        elif l[i] <= r[j]:
-            c += [l[i]]
-            i += 1
+        elif a[ai] <= b[bj]:
+            c += [a[ai]]
+            j += 1
         else:
-            c += [r[j]]
-            j += 1
+            c += [b[bj]]
+            i += 1
 
     return c
 
+
 import random
 
-A = range(31)
+A = range(27)
 A = random.sample(A, len(A))
 
 print A
+
+def ms(a):
+    p = int(len(a)/2)
+
+    if p == 0:
+        return a
+
+    return merge(ms(a[:p]), ms(a[p:]))
+
 print ms(A)
