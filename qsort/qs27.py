@@ -1,5 +1,4 @@
 def qsort(a):
-
     if len(a)<= 1:
         return a
 
@@ -21,7 +20,6 @@ def qsort(a):
     return qsort(l) + [e] + qsort(r)
 
 import random
-
 def rp(a):
     return random.sample(a,len(a))
 

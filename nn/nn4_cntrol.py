@@ -176,10 +176,19 @@ class NN:
             e += err
         print "avg error  = {}".format(e)
 
+    def bigTrain(self,data,n = 1):
+        for i in range(n):
+            self.avgerr(data)
+            print nn.train(data)
+            nn.test(data[:10])
+
+        self.avgerr(data)
 
 
-layers = [[4,3,4], [4,5,4], [4,6,4], [4,4,4,4], [4,5,5,4],[4,6,5,5,4]]
-dat = genData(100000,3)
+
+
+layers = [[4,7,7,6,5,4],[4,7,7,5,4],[4,7,4], [4,8,7,4], [4,8,8,4],[4,9,9,4],[4,10,10,4]]
+dat = genData(300000,3)
 print dat[:10]
 for ll in layers:
     print "ll:",ll
@@ -194,8 +203,9 @@ for ll in layers:
 
         nn.trainStep(x,y)
 
-    print nn.train(dat)
-    nn.test(dat[:10])
-    nn.avgerr(dat)
+    #print nn.train(dat)
+    nn.bigTrain(dat,5)
+    #nn.test(dat[:10])
+    #nn.avgerr(dat)
     #print nn.w
     #print nn.b

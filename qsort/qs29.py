@@ -1,3 +1,5 @@
+# 27.09.2017 end 12:10
+
 def qsort(a):
     if len(a) <= 1:
         return a

@@ -16,8 +16,16 @@ def genDat(n,l):
 
     x = [map(rand,range(l)) for i in range(n)]
     y = map(rotL, x)
+    #y = map(lambda e:map(lambda x: 2 * x,e), y)
 
     return zip(x,y)
+
+# AML genData:
+# r    = lambda : 3# ? [0,1]
+# rotl = lambda x: x[1:] + [x[0]]
+
+# range(n) .=> r() .=> [_, rotL(_)]
+# range(n) .=> a=attr(r()) | [a,rotL(a)]
 
 def sigmoid(x):
     return 1.0/(1 + math.exp(-x))
@@ -62,7 +70,7 @@ class NN:
         grad[-1] = (vf[-1] - y)*df(v[-1])
 
         for i in range(len(w)-2, -1,-1):
-            grad[i] = np.multiply(np.dot(w[i+1],grad[i+1]),df(v[i+1]))
+            grad[i] = np.multiply(np.dot(w[i+1],grad[i+1]), df(v[i+1]))
 
         gradb = grad
 
@@ -73,12 +81,12 @@ class NN:
         return gradw, gradb
 
     def trainStep(self,x,y):
-        v,vf  = self.ff(x)
-        yN    = vf[-1]
+        v,vf   = self.ff(x)
+        yN     = vf[-1]
 
-        e1    = self.err(yN,y)
+        e1     = self.err(yN,y)
 
-        gw,gb = self.fb(v,vf,y)
+        gw,gb  = self.fb(v,vf,y)
 
         gw     = map(lambda x:np.multiply(x, self.lr), gw)
         gb     = map(lambda x:np.multiply(x, self.lr), gb)
@@ -86,8 +94,8 @@ class NN:
         self.w = map(lambda x: x[0] - x[1], zip(self.w,gw))
         self.b = map(lambda x: x[0] - x[1], zip(self.b,gb))
 
-        v2,vf2  = self.ff(x)
-        e2    = self.err(vf2[-1],y)
+        v2,vf2 = self.ff(x)
+        e2     = self.err(vf2[-1],y)
         return [e1,e2]
 
     def err(self,yN,y):
@@ -120,10 +128,6 @@ class NN:
             e = self.err(yn,y)
 
             print "x = {}, y = {}, out = {}, e = {}".format(self.normF(x),self.normF(y),self.normF(yn),e)
-
-
-
-
 
 
 dat = genDat(10000,3)

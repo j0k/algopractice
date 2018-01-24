@@ -1,3 +1,4 @@
+
 # data set
 import random
 
@@ -71,13 +72,12 @@ class NN:
         return B
 
     def ff(self, d, w, b):
+        x,y = d
+        return self.ff_pure(x,w,b)
+
+    def ff_pure(self,x,w,b):
         #print d
-        x,y = [],[]
-        if len(d) == 2:
-            x,y = d
-        else:
-            x = d
-            
+
         l = len(w)
 
         f = lambda x: sigmoid(x)
@@ -155,6 +155,7 @@ class NN:
         nout  = len(w[-1][0])
         nin = len(w[-1])
 
+        #print "nout= ",nout, "nin= ",nin
         delta[-1] = [0 for i in range(nout)]
         for i in range(nout):
             delta[-1][i] = (a[-1][i] - y[i]) * df(z[-1][i])
@@ -163,19 +164,37 @@ class NN:
         #print "W-2",w[-2]
 
         for l in range(0,len(w)-1):
-            cur = -1 - l - 1
-            nout  = len(w[cur][0])
+            cur   = -1 - l - 1
+
+            #print "wcur:",w[cur]
+            #nout  = len(w[cur][0])
             nin   = len(w[cur])
+            nout  = len(w[cur][0])
+
+            nin2  = len(w[cur+1])
+            nout2 = len(w[cur+1][0])
+
+
+
+            #nin   = len(w[cur+  1][0])
             wt    = transpose(w[cur+1])
 
             delta[cur] = [0 for i in range(nout)]
-            for i in range(nout):
-                for j in range(nin):
-                    #print "d", delta[-1 - l - 1]
-                    #print "dd",delta[-1 - l]
-                    delta[cur][i] += wt[j][i] * delta[cur + 1][j]
+            #print "wt:", wt, "nin:", nin, "nout:", nout, " l:", l," cur:", cur, " len(w):", len(w)
+            for i in range(nout2):
+                # nin2 = len(w[cur+1])
+                for j in range(nin2):
+                    #print "i ",i,"  j ",j
+                    #print "d", delta[cur]
+                    #print "dd",delta[cur+1]
+                    #print w[cur+1]
+                    #print wt[i][j]
+                    #print delta[cur + 1][i]
+
+                    # check i,j [cur][i]
+                    delta[cur][j] += wt[i][j] * delta[cur + 1][i] # [j]
                     #(a[-1][i] - y[i]) * df(z[-1][i])
-                delta[cur][i] = delta[cur][i] * df(z[cur][i])
+                delta[cur][j] = delta[cur][j] * df(z[cur][i])
         #print delta
 
         gradw = [[] for i in range(len(w))]
@@ -193,7 +212,7 @@ class NN:
             cur = -1 - l
             for i in range(len(delta[cur])):
                 wj = []
-                if len(w) == abs(cur)+1:
+                if not len(w)-1 == abs(cur): # layer = 0
                     for j in range(len(a[cur -1])):
                         wj += [delta[cur][i] * a[cur -1][j] ]
                 else:
@@ -269,13 +288,16 @@ class NN:
             gradw, gradb = self.fb(a, z, x, y, w)
 
             LR = self.LR
+            print "w:",w
+            print "gradw", gradw
             w = atElem(lambda x,y: x - LR * y, w, gradw)
+            print "HEP"
             b = atElem(lambda x,y: x - LR * y, b, gradb)
 
         print "TEST:"
-        print self.ff([1,0,0],w,b)
-        print self.ff([0,1,0],w,b)
-        print self.ff([0,1,1],w,b)
+        print self.ff_pure([1,0,0],w,b)
+        print self.ff_pure([0,1,0],w,b)
+        print self.ff_pure([0,1,1],w,b)
 
 import math
 def EuclideanDistance(a,b):
@@ -290,11 +312,12 @@ def atElem(f, a,b):
     else:
         res = []
         for i in range(len(a)):
+            #print i, len(a), len(b)
             res += [atElem(f,a[i],b[i])]
         return res
 
 
-nn = NN([3,5,3],data)
+nn = NN([3,5,5,3],data)
 print nn.genW()
 print nn.genB()
 #print data[0]

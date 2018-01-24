@@ -1,0 +1,57 @@
+# example of solving chicken and egg problem of strategy and simulation gateway
+
+strategy.config.json//
+{
+  'dplevel':30,
+  'kafka_mddata':'localhost:9092'
+}
+//strategy.config.json
+
+strategy//
+import mddb
+
+config = read(strategy.config.json)
+mdchannel = kafka(config['kafka_mddata'])
+
+
+class GridStrategy:
+  def __init__(_, maxOrders, dp ):
+    _.orders    = []
+    _.maxOrders = maxOrders
+    _.dp        = dp
+    _.mddb      = MDDB(mdchannel)
+    _.bb, _.ba  = 0, 0
+
+  def firstrun(_):
+    builders = _.mddb.builders
+    # pass
+
+  def run(_):
+    if dt > 5 sec
+    if balance.inBTC > 0.01 BTC
+    if bestBid.lastTimeUp later then 5 sec
+
+
+    pass
+
+
+ss = GridStrategy()
+
+ss.firstrun()
+time.timetable( every 5 seconds ss.run())
+//strategy
+
+
+simulation.config.json//
+{
+
+}
+//simulation.config.json
+
+
+simulation//
+
+//simulation
+
+## if bestBid.lastTimeUp later then 5 sec
+##  (time.time() - bestBid.lastTimeUp) > 5 sec

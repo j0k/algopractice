@@ -2,6 +2,8 @@
 # start: 15:21
 # end:   16:49
 # total time: 1h 28m
+# end that exp: 17:14
+# total time with exp: 1h 53m
 
 import random
 import numpy as np

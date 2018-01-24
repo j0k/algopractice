@@ -1,6 +1,11 @@
 # 14.10.2017
 # starting at about 13:00
 # CardPay office
+# end & commited 16:26
+# total: 3h 26m . Hm, ok
+# I still don't Understand good some mmonets: with dot & outer
+# 1: grad[i]  = np.multiply( np.dot(W[i+1], grad[i+1]) , vdf(V[i+1]))
+# 2: gradw[i] = np.outer(grad[i], VF[i])
 
 import random
 import numpy as np

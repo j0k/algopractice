@@ -33,7 +33,7 @@ def sigmoid(z):
     return 1.0/(1 + math.exp(-z))
 
 class NN:
-    def __init__(self,ll,LR = 0.05):
+    def __init__(self, ll, LR = 0.05):
         self.ll = ll
         self.LR = LR
         self.w, self.b = self.genWB()

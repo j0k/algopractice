@@ -9,6 +9,7 @@
 #        return a
 
 # start at about 16:00 15.10.2017
+# end at 19:38, total 3h 38m
 import random
 import math
 import numpy as np
