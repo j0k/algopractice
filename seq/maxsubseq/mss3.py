@@ -15,7 +15,7 @@ def mss(a):
             pass
 
         if (trend == 1 and le < e) or \
-            (trend == -1 and le >1):
+            (trend == -1 and le > e):
             mi = min(mi, e)
             ma = max(ma, e)
         else:
