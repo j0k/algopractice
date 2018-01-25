@@ -13,22 +13,15 @@ def mss(a):
     for i,e in enumerate(a):
         if le == e:
             pass
-        if le < e:
-            if trend == 1:
-                mi = min(mi, e)
-                ma = max(ma, e)
-            else:
-                mi = min(le,e)
-                ma = max(le,e)
-            trend = 1
-        if le > e:
-            if trend == -1:
-                mi = min(mi, e)
-                ma = max(ma, e)
-            else:
-                mi = min(le,e)
-                ma = max(le,e)
-            trend = -1
+
+        if (trend == 1 and le < e) or \
+            (trend == -1 and le >1):
+            mi = min(mi, e)
+            ma = max(ma, e)
+        else:
+            mi = min(le,e)
+            ma = max(le,e)
+            trend = trend * 1
         d = max(d, ma-mi)
 
     return d
