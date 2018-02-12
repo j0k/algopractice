@@ -13,24 +13,40 @@ def maxseq(a):
         return d
 
     m, M, le, mi, Mi = a[0], a[0], a[0], 0, 0
+    bm, bM, bmi, bMi = a[0], a[0], 0, 0
 
     trend = 1
+
+    def sb():
+        bm,bmi = mini(bm, m, bmi, mi)
+        bM,bMi = maxi(bM, M, bMi, Mi)
+
     for i, e in enumerate(a):
         if e == le:
             continue
         elif (e > le and trend > 0) or (e < le and trend < 0):
-            #trend not change
+            # trend not change
             m, mi = mini(m, e, mi, i)
             M, Mi = maxi(M, e, Mi, i)
 
         else:
+            # here we need to save the best result
             trend = -trend
-            m, mi = mini(le, e, i -1, i)
-            M, Mi = maxi(le, e, i -1, i)
-        
+            if M-m > bM - bm:
+                bm,bmi = m, mi
+                bM,bMi = M, Mi
+
+            m, mi = mini(le, e, i - 1, i)
+            M, Mi = maxi(le, e, i - 1, i)
+
         le = e
-    d = M - m
-    return d, mi, Mi
+
+    if M-m > bM - bm:
+        bm,bmi = m, mi
+        bM,bMi = M, Mi
+
+    d = bM - bm
+    return d, bmi, bMi
 
 A = range(20)
 A = random.sample(A, len(A))
