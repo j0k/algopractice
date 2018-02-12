@@ -14,28 +14,20 @@ def maxseq(a):
 
     m, M, le, mi, Mi = a[0], a[0], a[0], 0, 0
 
-    trend = 0
+    trend = 1
     for i, e in enumerate(a):
         if e == le:
             continue
-        elif e > le:
-            if trend >= 0:
-                trend = 1
-                m, mi = mini(m, e, mi, i)
-                M, Mi = maxi(M, e, Mi, i)
-            else:
-                trend = 1
-                m, mi = mini(le, e, i -1, i)
-                M, Mi = maxi(le, e, i -1, i)
+        elif (e > le and trend > 0) or (e < le and trend < 0):
+            #trend not change
+            m, mi = mini(m, e, mi, i)
+            M, Mi = maxi(M, e, Mi, i)
+
         else:
-            if trend <= 0:
-                trend = -1
-                m, mi = mini(m, e, mi, i)
-                M, Mi = maxi(M, e, Mi, i)
-            else:
-                trend = -1
-                m, mi = mini(le, e, i -1, i)
-                M, Mi = maxi(le, e, i -1, i)
+            trend = -trend
+            m, mi = mini(le, e, i -1, i)
+            M, Mi = maxi(le, e, i -1, i)
+        
         le = e
     d = M - m
     return d, mi, Mi
