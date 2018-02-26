@@ -41,5 +41,5 @@ def maxseq(a):
 A = range(26)
 A = random.sample(A, len(A))
 
-print (A)
-print (maxseq(A))            
+print(A)
+print(maxseq(A))
