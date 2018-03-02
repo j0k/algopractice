@@ -22,6 +22,7 @@ def maxseq(a):
         else:
             m,mi = mini(el,i-1,e,i)
             M,Mi = maxi(el,i-1,e,i)
+            t = -t
 
         if (M-m > d):
             d = M-m
