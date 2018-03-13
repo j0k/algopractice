@@ -1,0 +1,22 @@
+13/03/2018
+
+#1 = vs ==
+seq: mss16.py
+[was]  if el = e:
+[need] if el == e:
+
+#2 forget mi,Mi
+
+Traceback (most recent call last):
+  File "mss16.py", line 39, in <module>
+    print(maxseq(seq))
+  File "mss16.py", line 22, in maxseq
+    m,mi = mini(e,i,m,mi)
+UnboundLocalError: local variable 'mi' referenced before assignment
+
+#3 logic bug
+maxi(e,e,M,Mi) vs maxi(e,ei,M,Mi)
+AML have to 'feel' such logic
+
+#4 forget to change state
+t = not t
