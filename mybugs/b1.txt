@@ -20,3 +20,22 @@ AML have to 'feel' such logic
 
 #4 forget to change state
 t = not t
+else:
+        m,mi = mini(el, i-1, e, i)
+        M,Mi = maxi(el, i-1, e, i)
+        t = not t
+
+#5 forget not t (22.03.2018)
+if (t and e > el) or (t and e < el):
+t => not t
+
+#6 forget e = el
+
+#7 bad order before saving d
+A = [d, M, m, mi, Mi, a[l:r+1]]
+d = M - m
+
+need:
+
+d = M - m
+A = [d, M, m, mi, Mi, a[l:r+1]]
