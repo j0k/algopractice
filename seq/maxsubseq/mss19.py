@@ -34,16 +34,22 @@ def maxseq(a):
         if d < M.e - m.e:
             d = M.e - m.e
             l,r = min(m.i, M.i), max(m.i, M.i)
-            A = {"dist":d, "min": m.e, "max": M.e, "inds": [m.i, M.i], "seq": a[l:r+1]}
+            A = {
+                "dist":d,
+                "min" : m.e,
+                "max" : M.e,
+                "inds": [m.i, M.i],
+                "seq" : a[l:r+1]
+                }
         el = e
 
     return A
-
 
 A = range(27)
 A = random.sample(A, len(A))
 
 print(A)
 print(maxseq(A))
+
 # AML free form
 # e cmp cond => if true => c = cond
