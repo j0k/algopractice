@@ -25,3 +25,21 @@ A = random.sample(A, len(A))
 
 print(A)
 print(maxseq(A))
+
+# AML natural operations
+
+
+# before = s:'elem before `e in `a'
+# for (e, el as before) in a:
+#     order ~= e<el
+#     if order changed:
+#         m,M = min,max (el,e)
+#         order = e<el
+
+# we can start from this key words:
+#  1. ~=
+#  2. changed
+#  3. before
+
+# which connected to logic structure
+# principle:

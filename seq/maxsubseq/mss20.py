@@ -28,7 +28,7 @@ def maxseq(a):
     if len(a)<=1:
         return 0
 
-    m,M,mi,Mi,el = a[0],a[0],0,0,a[0]
+    m, M, mi, Mi, el = a[0], a[0], 0, 0, a[0]
     d, t = 0, True
 
     A = [mi,Mi]
@@ -42,7 +42,7 @@ def maxseq(a):
         else:
             m,mi = mini(el,i-1,e,i)
             M,Mi = maxi(el,i-1,e,i)
-            t = not t
+            t    = not t
         el = e
 
         if M-m > d:
@@ -57,3 +57,7 @@ A = random.sample(A, len(A))
 
 print(A)
 print(maxseq(A))
+
+# aml:
+# + stmt with properties
+#
