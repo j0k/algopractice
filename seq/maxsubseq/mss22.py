@@ -44,7 +44,14 @@ def mmseq(a):
     return d
 
 A = range(28)
-
 A = random.sample(A, len(A))
+
 print(A)
 print(mmseq(A))
+
+# aml notes:
+# it will be cool to have 2d visualization to get fast understanding
+# as a first step we can
+#   - change SIZE of Symbols
+#   - use very short term notation
+#   - use colorizing
