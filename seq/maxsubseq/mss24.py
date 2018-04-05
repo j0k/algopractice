@@ -13,6 +13,7 @@ def maxseq(a):
     m,M, mi,Mi = a[0], a[0], 0, 0
     el = a[0]
     order = True
+    d = 0
 
     for i,e in enumerate(a):
         if e == el:
