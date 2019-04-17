@@ -1,0 +1,32 @@
+{-# STDLIB_VERSION 3 #-}
+{-# CONTENT_TYPE DAPP #-}
+{-# SCRIPT_TYPE ACCOUNT #-}
+
+func in(user:String) = {
+    match getInteger(this, user){
+        case a:Int => a>0
+        case _     => false
+    }
+}
+
+func add(user:String) = {
+    if !in(user)
+    then (WriteSet([DataEntry(user, 1)]))
+    else throw("already")
+}
+
+
+@Callable(i)
+func addX(user:String) = {
+    let accAdd   = this.bytes.toBase58String()
+    let callAddr = i.caller.bytes.toBase58String()
+
+    if (accAdd == callAddr) || (in(callAddr))
+    then add(user)
+    else throw("you don't have rights!")
+}
+
+#
+# deploy(compile(env.file()))
+# broadcast(invokeScript({dappAddress: address(env.accounts[4]), call:{function:"addX",args:[{type:"string", value: address(env.accounts[0])}] }}))
+#
