@@ -26,7 +26,9 @@ func addX(user:String) = {
     else throw("you don't have rights!")
 }
 
-#
-# deploy(compile(env.file()))
-# broadcast(invokeScript({dappAddress: address(env.accounts[4]), call:{function:"addX",args:[{type:"string", value: address(env.accounts[0])}] }}))
-#
+## ///////
+##
+## deploy(compile(env.file()))
+## broadcast(invokeScript({dappAddress: address(env.accounts[4]), call:{function:"addX",args:[{type:"string", value: address(env.accounts[0])}] }}))
+##
+## ///////

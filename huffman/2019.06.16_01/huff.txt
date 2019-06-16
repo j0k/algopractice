@@ -1,0 +1,11 @@
+сущности:
+-----
+- create dictionary
+- load <in-file>
+- load <dict>
+- save compressed <out-file>
+- save <dict>
+- buffered print <in-file>
+- buffered print <dict>
+
+-----

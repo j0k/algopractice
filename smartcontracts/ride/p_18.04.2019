@@ -1,0 +1,31 @@
+{-# STDLIB_VERSION 3 #-}
+{-# CONTENT_TYPE DAPP #-}
+{-# SCRIPT_TYPE ACCOUNT #-}
+
+let accOwner = this.bytes.toBase58String()
+
+func checkDB(mod:String, addr:String) = {
+    match getInteger(this, mod+addr){
+        case a:Int => a>0
+        case _ => false
+    }
+}
+
+@Callable(i)
+func addUser(mod:String, addr:String) = {
+    let caller = i.caller.bytes.toBase58String()
+
+    if checkDB(mod, caller) || (caller == accOwner)
+    then (
+        WriteSet([DataEntry(mod+addr, 1)])
+    )
+    else throw("Not available")
+}
+
+@Callable(i)
+func sendWaves(addr:String, amount:Int) = {
+    let caller = i.caller.bytes.toBase58String()
+    if checkDB("_fin_", caller)
+        then TransferSet([ScriptTransfer( addressFromString(addr).value(), amount, unit )])
+        else throw("no")
+}
