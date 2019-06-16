@@ -120,6 +120,19 @@ vector<char> Loader::load01(){
   return packer.load01(this->fin);
 }
 
+vector<char> Loader::load_orig(){
+  vector<char> chars;
+  while(1){
+    char raw  = 0;
+    fin.read(&raw, sizeof(char));
+    chars.push_back(raw);
+    if (fin.eof()){
+        return chars;
+    }
+  }
+  return chars;
+}
+
 
 void Loader::save(tcode01 code){
     packer.save(code, this->fout);

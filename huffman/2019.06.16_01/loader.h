@@ -38,4 +38,5 @@ public:
   void save(tcode01 code);
 
   vector<char> load01();
+  vector<char> load_orig();
 };

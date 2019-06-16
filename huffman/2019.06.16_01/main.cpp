@@ -1,5 +1,8 @@
 #include "huff.h"
 
+extern Loader loader;
+Huffman coder;
+
 int main(int argc, char *argv[]){
   if (argc == 3){
     char * op1 = argv[1];
@@ -24,6 +27,29 @@ int main(int argc, char *argv[]){
 
       loader.fin.close();
     }
+
+    if (op1[0] == 'w' ){ // weight
+      vector<char> chars;
+      loader.fin.open(fn);
+      chars = loader.load_orig();
+      coder.calc_weight(chars);
+      coder.print_weights();
+
+      loader.fin.close();
+    }
+
+    if (op1[0] == 'e' ){ // encode
+      vector<char> chars;
+      loader.fin.open(fn);
+      chars = loader.load_orig();
+      coder.calc_weight(chars);
+      
+
+      loader.fin.close();
+    }
+
+
+
   }
   return 0;
 }
